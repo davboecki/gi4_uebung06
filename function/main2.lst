@@ -1,0 +1,62 @@
+     1                                  SECTION .text
+     2                                  	extern malloc, currentObject, pos
+     3                                  	global calcDarstellung
+     4                                  
+     5                                  calcDarstellung:
+     6 00000000 55                      	push ebp
+     7 00000001 89E5                    	mov ebp, esp
+     8                                  	
+     9 00000003 53                      	push ebx
+    10 00000004 51                      	push ecx
+    11 00000005 52                      	push edx
+    12                                  	
+    13 00000006 31D2                    	xor edx, edx
+    14 00000008 8B4508                  	mov eax, [ebp+8]
+    15                                  	
+    16 0000000B 8B1D[00000000]          	mov ebx, [currentObject]
+    17 00000011 83C307                  	add ebx, 7
+    18 00000014 B910000000              	mov ecx, 16
+    19                                  loop1:
+    20 00000019 F7F1                    	div ecx
+    21                                  	
+    22 0000001B 83FA09                  	cmp edx, 9
+    23 0000001E 7E03                    	jle lower
+    24                                  	
+    25 00000020 83C207                  	add edx, 7
+    26                                  	
+    27                                  lower:	
+    28 00000023 83C230                  	add edx, 48
+    29                                  	
+    30 00000026 8813                    	mov [ebx], DL
+    31 00000028 4B                      	dec ebx
+    32                                  	
+    33 00000029 31D2                    	xor edx, edx
+    34 0000002B 83F800                  	cmp eax, 0
+    35 0000002E 7FE9                    	jg loop1
+    36                                  	
+    37 00000030 31D2                    	xor edx, edx
+    38 00000032 8B4508                  	mov eax, [ebp+8]
+    39                                  	
+    40 00000035 8B1D[00000000]          	mov ebx, [currentObject]
+    41 0000003B 83C312                  	add ebx, 18
+    42 0000003E B90A000000              	mov ecx, 10
+    43                                  loop2:
+    44 00000043 F7F1                    	div ecx
+    45                                  	
+    46 00000045 83C230                  	add edx, 48
+    47                                  	
+    48 00000048 8813                    	mov [ebx], DL
+    49 0000004A 4B                      	dec ebx
+    50                                  	
+    51 0000004B 31D2                    	xor edx, edx
+    52 0000004D 83F800                  	cmp eax, 0
+    53 00000050 7FF1                    	jg loop2
+    54                                  	
+    55 00000052 5A                      	pop edx
+    56 00000053 59                      	pop ecx
+    57 00000054 5B                      	pop ebx
+    58                                  	
+    59 00000055 A1[00000000]            	mov eax, [currentObject]
+    60                                  	
+    61 0000005A 5D                      	pop ebp
+    62 0000005B C3                      	ret
